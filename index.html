@@ -331,15 +331,12 @@
       <div class="grid" id="heart"></div>
       
       <div class="buttons">
-        <button class="btn" id="revealBtn">💕 For My Sayang</button>
-        <button class="btn" id="surpriseBtn">✨ Surprise ka Sayang!</button>
-        <button class="btn" id="celebrateBtn">🎊 Let's Celebrate!</button>
+        <button class="btn" id="revealBtn">💕 For You</button>
       </div>
       
       <div class="message" id="message">
         🎂 <strong>Happy Birthday</strong><br>
         <div class="name">Dorothy Gabrielle P. Siota</div>
-        💖 <strong>My beautiful Sayang</strong> 💖<br><br>
         
         <div class="tagalog">
           "Mahal na mahal kita, Dorothy.<br>
@@ -354,28 +351,28 @@
     </div>
     
     <div id="waitingContent">
-      <h1 class="title visible">🕐 Almost There, Sayang! 💕</h1>
+      <h1 class="title visible">🕐 Almost There!</h1>
       <div class="message visible">
-        <div class="name">Dorothy Gabrielle P. Siota</div>
-        💖 Your special birthday surprise is waiting! 💖<br><br>
+        <div class="name">TO: Dorothy Gabrielle P. Siota</div>
+        FROM: Muhammad Aqil Najmi<br><br>
         
         <div class="tagalog">
-          "Maghintay ka muna, mahal.<br>
-          May special surprise ako para sa'yo<br>
-          sa iyong birthday! 🎂"
-        </div>
         <br>
         
         <div id="countdown" style="font-size: 1.5em; color: #ffb6c1; margin: 20px 0;">
-          <div>⏰ Countdown to your birthday:</div>
+          <div>Countdown:</div>
           <div id="countdownTimer" style="font-weight: bold; margin-top: 10px;"></div>
         </div>
         
         🌹 Come back on <strong>July 22, 2025 at 12:00 AM</strong> 🌹<br>
-        💫 <em>I love you so much, my beautiful sayang</em> 💫
+        <em>skrrtt skrtttt</em>
       </div>
     </div>
   </div>
+
+  <audio id="birthdayAudio" preload="auto">
+  <source src="https://raw.githubusercontent.com/McAFeexDD/BirthdayH/main/Song.mp3" type="audio/mpeg">
+</audio>
 
   <script>
     const heartMap = [
@@ -397,10 +394,9 @@
       message: document.getElementById("message"),
       title: document.getElementById("title"),
       revealBtn: document.getElementById("revealBtn"),
-      surpriseBtn: document.getElementById("surpriseBtn"),
-      celebrateBtn: document.getElementById("celebrateBtn"),
       stars: document.getElementById('stars'),
-      floatingHearts: document.getElementById('floatingHearts')
+      floatingHearts: document.getElementById('floatingHearts'),
+      birthdayAudio: document.getElementById('birthdayAudio')
     };
     
     let animationDelay = 0;
@@ -471,14 +467,10 @@
     
     function showButtons() {
       setTimeout(() => elements.revealBtn.classList.add("visible"), 100);
-      setTimeout(() => elements.surpriseBtn.classList.add("visible"), 200);
-      setTimeout(() => elements.celebrateBtn.classList.add("visible"), 300);
     }
     
     function hideButtons() {
       elements.revealBtn.classList.remove("visible");
-      elements.surpriseBtn.classList.remove("visible");
-      elements.celebrateBtn.classList.remove("visible");
     }
     
     function createConfetti() {
@@ -527,21 +519,6 @@
       createConfetti();
     });
     
-    addTouchEvents(elements.surpriseBtn, () => {
-      createConfetti();
-      // Change background gradient temporarily
-      document.body.style.background = 'linear-gradient(135deg, #ff69b4 0%, #ff1493 100%)';
-      setTimeout(() => {
-        document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-      }, 2000);
-    });
-    
-    addTouchEvents(elements.celebrateBtn, () => {
-      createConfetti();
-      setTimeout(() => createConfetti(), 1000);
-      setTimeout(() => createConfetti(), 2000);
-    });
-    
     // Initialize everything
     function init() {
       // Check if it's Dorothy's birthday (July 22, 2025 at 12:00 AM or later)
@@ -563,6 +540,16 @@
         setTimeout(() => {
           renderHeart();
         }, 800);
+        
+        // Play the birthday audio starting at 5 seconds
+        setTimeout(() => {
+          try {
+            elements.birthdayAudio.currentTime = 5;
+            elements.birthdayAudio.play().catch(e => console.log("Autoplay prevented:", e));
+          } catch (e) {
+            console.log("Audio error:", e);
+          }
+        }, 1000);
       } else {
         // Not birthday yet, show waiting message with countdown
         document.getElementById('birthdayContent').style.display = 'none';

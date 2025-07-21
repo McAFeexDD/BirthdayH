@@ -270,8 +270,43 @@
       }
     }
     
+    /* Glowing transition overlay */
+    #transitionOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at center, #ff69b4, #ff1493, #764ba2);
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+      animation: none;
+    }
+
+    #transitionOverlay.active {
+      opacity: 1;
+      animation: glowExpand 2s ease-out forwards;
+    }
+
+    @keyframes glowExpand {
+      0% {
+        transform: scale(1);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.1);
+        opacity: 0;
+      }
+    }
+    
     @media (max-width: 480px) {
-      body {
+       {
         padding: 10px;
       }
       
@@ -298,7 +333,7 @@
     }
     
     @media (orientation: landscape) and (max-height: 600px) {
-      body {
+       {
         padding: 10px;
       }
       
@@ -321,6 +356,9 @@
   </style>
 </head>
 <body>
+  <!-- Glowing transition overlay -->
+  <div id="transitionOverlay"></div>
+  
   <div class="stars" id="stars"></div>
   <div class="floating-hearts" id="floatingHearts"></div>
   
@@ -371,8 +409,8 @@
   </div>
 
   <audio id="birthdayAudio" preload="auto">
-  <source src="https://raw.githubusercontent.com/McAFeexDD/BirthdayH/main/Song.mp3" type="audio/mpeg">
-</audio>
+    <source src="https://raw.githubusercontent.com/McAFeexDD/BirthdayH/main/Song.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
     const heartMap = [
@@ -526,30 +564,36 @@
       const birthdayDate = new Date('2025-07-22T00:00:00');
       
       if (now >= birthdayDate) {
-        // It's birthday time! Show the surprise
+        const overlay = document.getElementById('transitionOverlay');
+        overlay.classList.add('active');
+
+        // Hide waiting screen
         document.getElementById('waitingContent').style.display = 'none';
-        document.getElementById('birthdayContent').style.display = 'block';
-        
-        createStars();
-        createFloatingHearts();
-        
+
+        // Wait for glow animation before revealing
         setTimeout(() => {
-          elements.title.classList.add("visible");
-        }, 300);
-        
-        setTimeout(() => {
-          renderHeart();
-        }, 800);
-        
-        // Play the birthday audio starting at 5 seconds
-        setTimeout(() => {
-          try {
-            elements.birthdayAudio.currentTime = 5;
-            elements.birthdayAudio.play().catch(e => console.log("Autoplay prevented:", e));
-          } catch (e) {
-            console.log("Audio error:", e);
-          }
-        }, 1000);
+          document.getElementById('birthdayContent').style.display = 'block';
+
+          createStars();
+          createFloatingHearts();
+
+          setTimeout(() => {
+            elements.title.classList.add("visible");
+          }, 300);
+
+          setTimeout(() => {
+            renderHeart();
+          }, 800);
+
+          setTimeout(() => {
+            try {
+              elements.birthdayAudio.currentTime = 5;
+              elements.birthdayAudio.play().catch(e => console.log("Autoplay prevented:", e));
+            } catch (e) {
+              console.log("Audio error:", e);
+            }
+          }, 1000);
+        }, 1800); // Wait for the glow animation
       } else {
         // Not birthday yet, show waiting message with countdown
         document.getElementById('birthdayContent').style.display = 'none';

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>🎉 Happy Birthday Dorothy! 💖</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background-attachment: fixed;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .star {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: twinkle 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+    
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 2;
+    }
+    
+    .floating-heart {
+      position: absolute;
+      font-size: 18px;
+      animation: float-up 6s linear infinite;
+      opacity: 0;
+    }
+    
+    @keyframes float-up {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      90% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-50px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    .container {
+      text-align: center;
+      z-index: 10;
+      position: relative;
+      max-width: 100%;
+      width: 100%;
+    }
+    
+    .title {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s ease;
+    }
+    
+    .title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(13, min(22px, 4vw));
+      grid-template-rows: repeat(11, min(22px, 4vw));
+      gap: clamp(2px, 0.5vw, 4px);
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      max-width: 400px;
+      width: fit-content;
+    }
+    
+    .grid:hover {
+      transform: scale(1.05);
+    }
+    
+    .grid:active {
+      transform: scale(0.98);
+    }
+    
+    .pixel {
+      width: min(22px, 4vw);
+      height: min(22px, 4vw);
+      background-color: transparent;
+      border-radius: 4px;
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      opacity: 0;
+      transform: scale(0);
+    }
+    
+    .pixel.on {
+      background: linear-gradient(45deg, #ff69b4, #ff1493, #dc143c);
+      box-shadow: 0 0 15px rgba(255, 20, 147, 0.6);
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    .heartPulse {
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 30px 0;
+      align-items: center;
+    }
+    
+    .btn {
+      background: linear-gradient(45deg, #ff69b4, #ff1493);
+      border: none;
+      color: white;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+      opacity: 0;
+      transform: translateY(20px);
+      min-width: 200px;
+      max-width: 300px;
+      width: 80%;
+    }
+    
+    .btn.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(255, 20, 147, 0.3);
+    }
+    
+    .message {
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      line-height: 1.6;
+      margin-top: 30px;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 0.8s ease;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .message.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    .name {
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      font-weight: 700;
+      color: #ffb6c1;
+      margin: 15px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 182, 193, 0.5); }
+      to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 182, 193, 0.8); }
+    }
+    
+    .tagalog {
+      font-style: italic;
+      color: #ffe4e1;
+      margin-top: 15px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      pointer-events: none;
+      z-index: 100;
+    }
+    
+    .confetti-piece {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      animation: confetti-fall 3s linear forwards;
+    }
+    
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-100vh) rotateZ(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotateZ(720deg);
+        opacity: 0;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .grid {
+        grid-template-columns: repeat(13, 16px);
+        grid-template-rows: repeat(11, 16px);
+        gap: 2px;
+        padding: 15px;
+      }
+      
+      .pixel {
+        width: 16px;
+        height: 16px;
+      }
+      
+      .buttons {
+        gap: 10px;
+      }
+      
+      .message {
+        padding: 20px;
+        margin-top: 20px;
+      }
+    }
+    
+    @media (orientation: landscape) and (max-height: 600px) {
+      body {
+        padding: 10px;
+      }
+      
+      .title {
+        margin-bottom: 10px;
+      }
+      
+      .grid {
+        margin: 10px auto;
+      }
+      
+      .buttons {
+        margin: 15px 0;
+      }
+      
+      .message {
+        margin-top: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="floating-hearts" id="floatingHearts"></div>
+  
+  <div class="container">
+    <div id="birthdayContent" style="display: none;">
+      <h1 class="title" id="title">🎉 Happy Birthday My Love! 💖</h1>
+      
+      <div class="grid" id="heart"></div>
+      
+      <div class="buttons">
+        <button class="btn" id="revealBtn">💕 For My Sayang</button>
+        <button class="btn" id="surpriseBtn">✨ Surprise ka Sayang!</button>
+        <button class="btn" id="celebrateBtn">🎊 Let's Celebrate!</button>
+      </div>
+      
+      <div class="message" id="message">
+        🎂 <strong>Happy Birthday</strong><br>
+        <div class="name">Dorothy Gabrielle P. Siota</div>
+        💖 <strong>My beautiful Sayang</strong> 💖<br><br>
+        
+        <div class="tagalog">
+          "Mahal na mahal kita, Dorothy.<br>
+          Ikaw ang nagbibigay ng kulay sa aking mundo.<br>
+          Sa bawat araw na kasama kita,<br>
+          mas nagiging masaya ang buhay ko."
+        </div>
+        <br>
+        🌹 You make every day feel like magic 🌹<br>
+        💫 <em>Forever yours, with all my love</em> 💫
+      </div>
+    </div>
+    
+    <div id="waitingContent">
+      <h1 class="title visible">🕐 Almost There, Sayang! 💕</h1>
+      <div class="message visible">
+        <div class="name">Dorothy Gabrielle P. Siota</div>
+        💖 Your special birthday surprise is waiting! 💖<br><br>
+        
+        <div class="tagalog">
+          "Maghintay ka muna, mahal.<br>
+          May special surprise ako para sa'yo<br>
+          sa iyong birthday! 🎂"
+        </div>
+        <br>
+        
+        <div id="countdown" style="font-size: 1.5em; color: #ffb6c1; margin: 20px 0;">
+          <div>⏰ Countdown to your birthday:</div>
+          <div id="countdownTimer" style="font-weight: bold; margin-top: 10px;"></div>
+        </div>
+        
+        🌹 Come back on <strong>July 22, 2025 at 12:00 AM</strong> 🌹<br>
+        💫 <em>I love you so much, my beautiful sayang</em> 💫
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const heartMap = [
+      "0001100001100",
+      "0011110011110",
+      "0111110111110",
+      "1111111111111",
+      "1111111111111",
+      "1111111111111",
+      "0111111111110",
+      "0011111111100",
+      "0001111111000",
+      "0000111110000",
+      "0000011100000"
+    ];
+    
+    const elements = {
+      grid: document.getElementById("heart"),
+      message: document.getElementById("message"),
+      title: document.getElementById("title"),
+      revealBtn: document.getElementById("revealBtn"),
+      surpriseBtn: document.getElementById("surpriseBtn"),
+      celebrateBtn: document.getElementById("celebrateBtn"),
+      stars: document.getElementById('stars'),
+      floatingHearts: document.getElementById('floatingHearts')
+    };
+    
+    let animationDelay = 0;
+    
+    function createStars() {
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.width = (Math.random() * 3 + 1) + 'px';
+        star.style.height = star.style.width;
+        star.style.animationDelay = Math.random() * 2 + 's';
+        elements.stars.appendChild(star);
+      }
+    }
+    
+    function createFloatingHearts() {
+      const hearts = ['💕', '💖', '💗', '💝', '💘', '🌹', '💐'];
+      
+      const addHeart = () => {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 2 + 4) + 's';
+        elements.floatingHearts.appendChild(heart);
+        
+        setTimeout(() => {
+          if (heart.parentNode) {
+            heart.parentNode.removeChild(heart);
+          }
+        }, 6000);
+      };
+      
+      setInterval(addHeart, 1200);
+      addHeart();
+    }
+    
+    function renderHeart() {
+      elements.grid.innerHTML = "";
+      animationDelay = 0;
+      elements.grid.classList.remove("heartPulse");
+      hideButtons();
+      elements.message.classList.remove("visible");
+      
+      heartMap.forEach((row, rowIndex) => {
+        for (let col = 0; col < row.length; col++) {
+          const pixel = document.createElement("div");
+          pixel.className = "pixel";
+          
+          if (row[col] === "1") {
+            setTimeout(() => {
+              pixel.classList.add("on");
+            }, animationDelay * 50);
+            animationDelay++;
+          }
+          
+          elements.grid.appendChild(pixel);
+        }
+      });
+      
+      setTimeout(() => {
+        elements.grid.classList.add("heartPulse");
+        showButtons();
+      }, animationDelay * 50 + 300);
+    }
+    
+    function showButtons() {
+      setTimeout(() => elements.revealBtn.classList.add("visible"), 100);
+      setTimeout(() => elements.surpriseBtn.classList.add("visible"), 200);
+      setTimeout(() => elements.celebrateBtn.classList.add("visible"), 300);
+    }
+    
+    function hideButtons() {
+      elements.revealBtn.classList.remove("visible");
+      elements.surpriseBtn.classList.remove("visible");
+      elements.celebrateBtn.classList.remove("visible");
+    }
+    
+    function createConfetti() {
+      const colors = ['#ff69b4', '#ff1493', '#dc143c', '#ffb6c1', '#ffe4e1'];
+      const shapes = ['circle', 'square'];
+      
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.top = '-10px';
+          
+          const piece = document.createElement('div');
+          piece.className = 'confetti-piece';
+          piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)] === 'circle' ? '50%' : '0';
+          piece.style.animationDelay = Math.random() * 3 + 's';
+          piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+          
+          confetti.appendChild(piece);
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => {
+            if (confetti.parentNode) {
+              confetti.parentNode.removeChild(confetti);
+            }
+          }, 5000);
+        }, i * 100);
+      }
+    }
+    
+    // Touch-friendly event listeners
+    function addTouchEvents(element, callback) {
+      element.addEventListener('click', callback);
+      element.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        callback(e);
+      });
+    }
+    
+    addTouchEvents(elements.grid, renderHeart);
+    
+    addTouchEvents(elements.revealBtn, () => {
+      elements.message.classList.add("visible");
+      createConfetti();
+    });
+    
+    addTouchEvents(elements.surpriseBtn, () => {
+      createConfetti();
+      // Change background gradient temporarily
+      document.body.style.background = 'linear-gradient(135deg, #ff69b4 0%, #ff1493 100%)';
+      setTimeout(() => {
+        document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+      }, 2000);
+    });
+    
+    addTouchEvents(elements.celebrateBtn, () => {
+      createConfetti();
+      setTimeout(() => createConfetti(), 1000);
+      setTimeout(() => createConfetti(), 2000);
+    });
+    
+    // Initialize everything
+    function init() {
+      // Check if it's Dorothy's birthday (July 22, 2025 at 12:00 AM or later)
+      const now = new Date();
+      const birthdayDate = new Date('2025-07-22T00:00:00');
+      
+      if (now >= birthdayDate) {
+        // It's birthday time! Show the surprise
+        document.getElementById('waitingContent').style.display = 'none';
+        document.getElementById('birthdayContent').style.display = 'block';
+        
+        createStars();
+        createFloatingHearts();
+        
+        setTimeout(() => {
+          elements.title.classList.add("visible");
+        }, 300);
+        
+        setTimeout(() => {
+          renderHeart();
+        }, 800);
+      } else {
+        // Not birthday yet, show waiting message with countdown
+        document.getElementById('birthdayContent').style.display = 'none';
+        document.getElementById('waitingContent').style.display = 'block';
+        
+        createStars();
+        createFloatingHearts();
+        
+        // Start countdown timer
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      }
+    }
+    
+    function updateCountdown() {
+      const now = new Date();
+      const birthdayDate = new Date('2025-07-22T00:00:00');
+      const timeDifference = birthdayDate - now;
+      
+      if (timeDifference <= 0) {
+        // Birthday has arrived! Refresh to show surprise
+        location.reload();
+        return;
+      }
+      
+      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      
+      const countdownElement = document.getElementById('countdownTimer');
+      if (countdownElement) {
+        if (days > 0) {
+          countdownElement.innerHTML = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        } else if (hours > 0) {
+          countdownElement.innerHTML = `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        } else if (minutes > 0) {
+          countdownElement.innerHTML = `${minutes} minutes, ${seconds} seconds`;
+        } else {
+          countdownElement.innerHTML = `${seconds} seconds until surprise! 🎉`;
+        }
+      }
+    }
+    
+    // Start when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
